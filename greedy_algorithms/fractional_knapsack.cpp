@@ -1,7 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <stdint.h>
-#include <inttypes.h>
 #include <math.h> 
 #include <iomanip>
 
@@ -21,10 +19,12 @@ int fractional_knapsack(int capacity, vector<int>&weights, vector<int>&values){
 		}
 		// determine the current optimal choice
 		double optimal_choice = 0.0;
+		double current_score;
 		int optimal_choice_idx = 0;
 		for(int j = 0; j < n; ++j){
-			if((values[j]/ (double) weights[j] > optimal_choice) & (weights[j] > 0)){
-				optimal_choice = values[j]/ (double) weights[j];
+			current_score = values[j]/ (double) weights[j];
+			if((current_score > optimal_choice) & (weights[j] > 0)){
+				optimal_choice = current_score;
 				optimal_choice_idx = j;
 			}
 	    }
