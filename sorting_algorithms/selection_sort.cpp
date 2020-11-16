@@ -4,12 +4,12 @@
 
 
 using namespace std;
+using std::swap;
 
 void selection_sort(vector<double> & X){
 	
 	int n = X.size();
 	int lowest_idx;
-	double smallest_value, current_first;
 	
 	for (int i = 0; i < n; i++){		
 		lowest_idx = i;		
@@ -17,11 +17,8 @@ void selection_sort(vector<double> & X){
 		     if (X[j] < X[lowest_idx]){
 		     	  lowest_idx = j;
 			 }
-	    }			
-		smallest_value = X[lowest_idx];
-		current_first = X[i];
-		X[i] = smallest_value;
-		X[lowest_idx] = current_first;
+	    }
+		swap(X[lowest_idx],X[i]);			
 	}
 
 }

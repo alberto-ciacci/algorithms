@@ -2,23 +2,49 @@
 #include <vector>
 #include <random>
 #include <limits>
+#include <time.h> 
+
+using std::swap;
 
 
 using namespace std;
-using std::swap;
 
-void bubble_sort(vector<double> &X){
-	int n = X.size();
-	for (int i = 0; i < n - 1; i++){
-		for (int j = n - 1; j > i; j--){
-			if (X[j] < X[j-1]){
-				swap(X[j], X[j-1]);
-			}
-        }  
-    }  
+
+int random_partition_enhanced(vector<double> &X, int a, int b, int &shift){
+	
+	int random_idx = rand() % (b-a) + a;
+	swap(X[a],X[random_idx]);
+		
+    double pivot = X[a];
+	int j = a;
+	for(int i = j + 1; i < b; i++){
+		if(X[i] <= pivot){
+		   j +=1;
+           swap(X[j],X[i]);
+           if(X[j] == pivot){
+      			 shift += 1;
+      	 		 swap(X[a + shift],X[j]);
+      	    }
+		}
+	}
+    for(int p = 0; p <= shift; p++){
+  		swap(X[a + p], X[j - p]);
+    }
+	return j;
+}
+
+void random_quicksort(vector<double> &X, int a, int b){
+	if (a >= b){
+		return;
+	}
+	int shift = 0;
+	int idx = random_partition_enhanced(X, a, b, shift);
+	random_quicksort(X, a, idx-1-shift);
+	random_quicksort(X, idx+1, b);
 }
 
 int main() {
+	
 	
   double low;
   double high;
@@ -40,7 +66,7 @@ int main() {
   
   cout << "\n";
   
-  bubble_sort(X);
+  random_quicksort(X, 0, X.size());
   
   cout << "\n" << "The random vector has been sorted in ascending order: " << "\n" << "\n";
   for (int i = 0; i < n; i++) {
