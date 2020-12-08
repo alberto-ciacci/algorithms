@@ -3,37 +3,19 @@
 #include <vector>
 #include <math.h>
 #include <ctime>
+
 using namespace std;
-using std::swap;
 
-int random_partition(vector<int> &X, int a, int b){
-	
-	int random_idx = rand() % (b-a) + a;
-	swap(X[a],X[random_idx]);
-		
-    int pivot = X[a];
-	int j = a;
-	for(int i = a + 1; i <= b; i++){
-		if(X[i] <= pivot){
-		   j +=1;
-           swap(X[j],X[i]);
-		}
-	}
-    swap(X[a],X[j]);
-	return j;
-}
 
-void random_quick_sort(vector<int> &X, int a, int b){
-	if (a >= b){
-		return;
-	}
-	int idx = random_partition(X, a, b);
-	random_quick_sort(X, a, idx-1);
-	random_quick_sort(X, idx+1, b);
+int linear_search(const vector<int> &X, int k) {
+  for (int i = 0; i < X.size(); ++i) {
+    if (X[i] == k) return i;
+  }
+  return -1;
 }
 
 int main() {
-	
+		
   int low, high, n, k;
   
   cout << "Input the size of the random and uniformly distributed vector (integer) that we are about to create: "; cin >> n ;
@@ -47,11 +29,16 @@ int main() {
 		X[i] = rand() % high + low; 
   }	
   
-  random_quick_sort(X, 0, X.size() - 1);
+  cout << "Guess an integer: "; cin >> k;
+  int output = linear_search(X, k);
+  if (output == -1){
+  	   cout << "The number " << k << " is not an element of the random vector. Try again!" << "\n";
+  }else{
+  	   cout << "Your guess is correct! The number " << k << " is an element of the random vector." << "\n";
+  }
   
-  cout << "\n" << "The random vector has been sorted in ascending order: " << "\n" << "\n";
+  cout <<  "Here the random vector: " << "\n" << "\n";
   for (int i = 0; i < n; i++) {
 		cout << "#" << i+1 << "\t" << X[i] << "\n";
   }
-  
 }
